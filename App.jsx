@@ -4,6 +4,7 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+
 function HomeScreen() {
   const navigation = useNavigation();
   return (
@@ -48,7 +49,7 @@ const Tab = createBottomTabNavigator();
 function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="TabHome" component={HomeScreen} />
+      <Tab.Screen name="TabHome" component={DrawerNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
@@ -59,7 +60,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={TabNavigator} />
+      <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="Contact" component={ContactScreen} />
     </Drawer.Navigator>
   );
@@ -69,7 +70,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="DrawerHome" component={DrawerNavigator} />
+        <Stack.Screen name="DrawerHome" component={TabNavigator} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
