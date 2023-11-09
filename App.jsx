@@ -1,79 +1,63 @@
 import * as React from 'react';
-import {View, Text, Button} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-
-function HomeScreen() {
-  const navigation = useNavigation();
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Move to profile"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </View>
-  );
-}
-
-function ProfileScreen({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Profile Screen</Text>
-      <Button title="back" onPress={() => navigation.pop()} />
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Settings Screen</Text>
-    </View>
-  );
-}
-
-function ContactScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Settings Screen</Text>
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-function TabNavigator() {
-  return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="TabHome" component={DrawerNavigator} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-    </Tab.Navigator>
-  );
-}
-
-const Drawer = createDrawerNavigator();
-
-const DrawerNavigator = () => {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Contact" component={ContactScreen} />
-    </Drawer.Navigator>
-  );
-};
+import {View, Text, Button, StatusBar} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import axios from 'axios';
+import ActionSheet from 'react-native-actions-sheet';
 
 function App() {
+  React.useEffect(() => {
+    // fetch('https://jsonplaceholder.typicode.com/posts', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     title: 'Aman',
+    //     body: 'bar',
+    //     userId: 1,
+    //   }),
+    //   headers: {
+    //     'Content-type': 'application/json; charset=UTF-8',
+    //   },
+    //   timmeout: 5000,
+    // })
+    //   .then(response => response.json())
+    //   .then(json => console.log(json));
+
+    axios('https://jsonplaceholder.typicode.com/todos').then(response =>
+      console.log(response.data),
+    );
+
+    axios
+      .post('https://jsonplaceholder.typicode.com/posts', {
+        title: 'Arvind',
+        body: 'bar',
+        userId: 1,
+      })
+      .then(r => console.log(r.data, 'post api res'));
+
+    actionSheetRef.current?.show();
+  }, []);
+  const actionSheetRef = React.useRef(null);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="DrawerHome" component={TabNavigator} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StatusBar backgroundColor="#000" />
+      <ActionSheet ref={actionSheetRef}>
+        <Text>Hi, I am here.</Text>
+        <Text>Hi, I am here.</Text>
+        <Text>Hi, I am here.</Text>
+        <Text>Hi, I am here.</Text>
+        <Text>Hi, I am here.</Text>
+        <Text>Hi, I am here.</Text>
+        <Text>Hi, I am here.</Text>
+      </ActionSheet>
+      <Text
+        style={{
+          fontSize: 24,
+          marginTop: 20,
+        }}>
+        Api Calling using Fetch/Axios
+      </Text>
+      {/* <FlatList /> */}
+    </View>
   );
 }
 
