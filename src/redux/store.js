@@ -38,6 +38,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: ['rootReducer'],
+
   // Optionally, you can configure other options here
 };
 
